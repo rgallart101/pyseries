@@ -3,7 +3,7 @@
 """
 test.py
 
-Created by Ramon Maria Gallart Escolà on 2012-05-23.
+Created by Ramon Maria Gallart Escolà on 2012-11-25.
 Copyright (c) 2012 www.ramagaes.com. All rights reserved.
 """
 
@@ -14,16 +14,16 @@ import urllib2
 import hashlib
 
 
-COOKIE_NAME = 'tusseries'
-url = "http://www.tusseries.com/index.php?showtopic=25880"
-# url = 'http://www.tusseries.com/index.php?showtopic=25222'
-cookie = 'ipb_stronghold=e7239be8fc82676e86a96b801ed545d1; member_id=222999; pass_hash=34cab994d8eebaa30b0140671373f7a0'
+COOKIE_NAME = 'todohdtv'
+url = ""
+cookie = ''
 
 
 def get_digest(url, cookie=None, do_debug=False):
     """
-    Busquem el primer div amb la classe 'maintitle'. Aquest div s'actualitza
-    cada cop que es puja un nou capítol indicant si hi ha hagut novetats.
+    Busquem el primer div amb la classe 'torrent-container-2'. Aquest div 
+    s'actualitza cada cop que es puja un nou capítol indicant si hi ha hagut
+    novetats.
     """
     ok = True
     md5hash = ""
@@ -44,9 +44,9 @@ def get_digest(url, cookie=None, do_debug=False):
 
     soup = BeautifulSoup(html)
     try:
-        divs = soup.find_all('div', {'class': 'maintitle'})
-        print_message(DEBUG, str(divs), do_debug)
-        md5hash = hashlib.md5(repr(divs[0])).hexdigest()
+        elems = soup.find_all('div', {'class': 'torrent-container-2'})
+        print_message(DEBUG, repr(elems[0]), do_debug)
+        md5hash = hashlib.md5(repr(elems[0])).hexdigest()
         print_message(DEBUG, md5hash, do_debug)
     except Exception, e:
         error_message = unicode(e)
@@ -71,3 +71,4 @@ if __name__ == '__main__':
         do_debug = True
 
     main(do_debug)
+

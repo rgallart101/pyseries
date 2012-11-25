@@ -60,6 +60,17 @@ an example:
 
     yourseries#the\_cookie\_got\_from\_my\_browser
 
+Important cookies for sites
+---------------------------
+Those are the cookies needed for the various sites processed:
+
+    tusseries
+        ipb_stronghold
+        member_id
+        pass_hash
+    todohdtv (doesn't need cookies)
+    divxatope (doesn't need cookies)
+
 acts.txt (output file)
 ----------------------
 This file is where the program will save the last state of the series.

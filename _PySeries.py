@@ -12,6 +12,8 @@ from conf import do_debug
 from sys import exit
 import tusseries
 import vagos
+import todohdtv
+import divxatope
 
 # Vigilem si hi ha hagut errors en el procés
 errors = False
@@ -192,6 +194,13 @@ def processar_series():
             elif web_serie == 'tusseries':
                 hash_actual = tusseries.get_digest(url_serie,
                         cookies.get(tusseries.COOKIE_NAME), do_debug)
+            elif web_serie == 'todohdtv':
+                hash_actual = todohdtv.get_digest(url_serie,
+                        None, do_debug)
+            elif web_serie == 'divxatope':
+                hash_actual = divxatope.get_digest(url_serie,
+                        None, do_debug)
+
         except Exception, e:
             print_message(ERROR, "Error tractant [" + nom_serie + "]: " +
                     e.message)
@@ -242,6 +251,9 @@ def processar_series():
             series_actualitzades.append("""<li><a href=\"" + url_serie +
                 "\" target=\"_blank\">" + nom_serie + "</a></li>""")
             print_message(INFO, "'" + nom_serie + "' actualitzada!!")
+
+        hash_actual = ""
+        hash_anterior = ""
   # ......
     escriure_actualitzacions()
     escriure_html()
