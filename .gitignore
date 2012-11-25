@@ -1,0 +1,11 @@
+# Ignore compiled python files
+*.pyc
+
+# Ignore html files
+*.html
+
+# Ignore bash script files
+*.sh
+
+# Ignore txt files
+*.txt
