@@ -134,7 +134,8 @@ def escriure_html():
                 actualitzar</h1>\r\n\t<ul>""")
             for serie in series_actualitzades:
                 output.write("\r\n\t\t" + serie)
-                output.write("\r\n\t</ul>")
+
+            output.write("\r\n\t</ul>")
         else:
             output.write("""\r\n\t<h1>Totes les s&egrave;ries estan
                 actualitzades</h1>\r\n\t""")
@@ -228,8 +229,8 @@ def processar_series():
                 print_message(DEBUG, "hash_actual: " + hash_actual)
                 if hash_anterior != hash_actual:
                     acts2.append(id_serie + "#" + hash_actual)
-                    series_actualitzades.append("""<li><a href=\"" + url_serie
-                        + "\" target=\"_blank\">" + nom_serie + "</a></li>""")
+                    series_actualitzades.append("<li><a href=\"" + url_serie
+                        + "\" target=\"_blank\">" + nom_serie + "</a></li>")
                     print_message(INFO, "'" + nom_serie + "' actualitzada!!")
                 else:
                     acts2.append(id_serie + "#" + hash_actual)
@@ -240,16 +241,16 @@ def processar_series():
             # d'actualitzacions
             if not trobat:
                 acts2.append(id_serie + "#" + hash_actual)
-                series_actualitzades.append("""<li><a href=\"" + url_serie +
-                    "\" target=\"_blank\">" + nom_serie + "</a></li>""")
+                series_actualitzades.append("<li><a href=\"" + url_serie +
+                    "\" target=\"_blank\">" + nom_serie + "</a></li>")
 
         else:
             # Si no existeix el fitxer d'actualitzacions, igualment visitarem
             # les pàgines de les sèries i les marcarem per visitar a la
             # sortida.
             acts2.append(id_serie + "#" + hash_actual)
-            series_actualitzades.append("""<li><a href=\"" + url_serie +
-                "\" target=\"_blank\">" + nom_serie + "</a></li>""")
+            series_actualitzades.append("<li><a href=\"" + url_serie +
+                "\" target=\"_blank\">" + nom_serie + "</a></li>")
             print_message(INFO, "'" + nom_serie + "' actualitzada!!")
 
         hash_actual = ""
