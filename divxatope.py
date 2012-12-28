@@ -14,7 +14,7 @@ import urllib2
 import hashlib
 
 
-COOKIE_NAME = 'todohdtv'
+COOKIE_NAME = 'divxatope'
 url = ""
 cookie = ''
 
@@ -46,7 +46,8 @@ def get_digest(url, cookie=None, do_debug=False):
     try:
         elems = soup.find_all('div', {'class': 'torrent-container-2'})
         print_message(DEBUG, repr(elems[0]), do_debug)
-        md5hash = hashlib.md5(repr(elems[0])).hexdigest()
+        a = elems[0].find('h4').next_element
+        md5hash = hashlib.md5(repr(a)).hexdigest()
         print_message(DEBUG, md5hash, do_debug)
     except Exception, e:
         error_message = unicode(e)
