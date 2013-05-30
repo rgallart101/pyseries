@@ -8,4 +8,4 @@
 *.sh
 
 # Ignore txt files
-*.txt
+src/*.txt
