@@ -9,3 +9,6 @@
 
 # Ignore txt files
 src/*.txt
+
+# Ignore Mac files
+.DS_Store
