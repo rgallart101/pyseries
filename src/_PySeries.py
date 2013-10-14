@@ -45,7 +45,8 @@ def llegir_series():
 
         # Afegim les series del fitxer com a tuples en una llista
         for line in fseries.readlines():
-            if line.startswith('#'):
+            line = line.strip()
+            if len(line) == 0 or line.startswith('#'):
                 continue
             parts = line.split("#")
             # Convertim cada línia en una tupla on:
