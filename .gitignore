@@ -12,3 +12,7 @@ src/*.txt
 
 # Ignore Mac files
 .DS_Store
+
+# Ignore .original files
+*.original
+
