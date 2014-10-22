@@ -16,3 +16,5 @@ src/*.txt
 # Ignore .original files
 *.original
 
+# Ignore PyCharm project files
+.idea/
