@@ -1,19 +1,17 @@
 #!/usr/bin/env python
-# encoding: utf-8
+# -*- encoding: utf8 -*-
 """
 _PySeries.py
 
 Created by Ramon Maria Gallart Escolà on 2012-05-24.
-Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+Copyright (c) 2012 ramagaes.com. All rights reserved.
 """
-from constants import PROGRAM, VERSION, INFO, DEBUG, WARNING, ERROR
+from .settings.constants import PROGRAM, VERSION, INFO, DEBUG, WARNING, ERROR
 from utils import print_message
-from conf import do_debug
+from .settings.conf import DO_DEBUG
 from sys import exit
-import tusseries
-import vagos
-import todohdtv
-import divxatope
+from .plugins import todohdtv
+from .plugins import divxatope
 
 # Vigilem si hi ha hagut errors en el procés
 errors = False
@@ -38,7 +36,7 @@ def llegir_series():
     """
     Llegeix el fitxer de sèries per ser processat.
     """
-    print_message(DEBUG, 'Estem a llegir series', do_debug)
+    print_message(DEBUG, 'Estem a llegir series', DO_DEBUG)
     # Llegim el fitxer series.txt
     try:
         fseries = open("series.txt")
@@ -60,16 +58,16 @@ def llegir_series():
 
             # Per debugar. Assegurem que tenim totes les series
             for s in series:
-                print_message(DEBUG, s[1] + " - " + s[2], do_debug)
+                print_message(DEBUG, s[1] + " - " + s[2], DO_DEBUG)
 
             # Tanquem fseries
             fseries.close()
-    except Exception, e:
+    except Exception as e:
         raise Exception(e.message)
 
 
 def llegir_actualitzacions():
-    print_message(DEBUG, 'Estem a llegir actualitzacions', do_debug)
+    print_message(DEBUG, 'Estem a llegir actualitzacions', DO_DEBUG)
     try:
         facts = open("acts.txt")
         # Afegim les actualitzacions del fitxer com a tuples en una llista
@@ -83,11 +81,11 @@ def llegir_actualitzacions():
 
         # Per debugar. Mirem si tenim les actualitzacions
         for a in acts:
-            print_message(DEBUG, a[1], do_debug)
+            print_message(DEBUG, a[1], DO_DEBUG)
 
         # Tanquem facts
         facts.close()
-    except Exception, e:
+    except Exception as e:
         eacts = False
         print_message(INFO,
                 "No existeix fitxer d'actualitzacions. El crearem després: "
@@ -99,18 +97,18 @@ def escriure_actualitzacions():
     """
     Escriu en el fitxer acts.txt les actualitzacions de les sèries
     """
-    print_message(DEBUG, 'Estem a escriure actualitzacions', do_debug)
+    print_message(DEBUG, 'Estem a escriure actualitzacions', DO_DEBUG)
     print_message(INFO, "Escribint actualitzacions" + ("." * 30))
     try:
         facts = open("acts.txt", "w")
-        print_message(DEBUG, acts2, do_debug)
+        print_message(DEBUG, acts2, DO_DEBUG)
 
         if acts2:
             for a in acts2:
                 facts.write(a + "\r\n")
 
         facts.close()
-    except Exception, e:
+    except Exception as e:
         print_message(ERROR,
                 "No he pogut crear el fitxer d'actualitzacions: "
                 + e.message)
@@ -122,7 +120,7 @@ def escriure_html():
     Escriu en el fitxer output.html els enllaços a les sèries que han
     estat actualitzades.
     """
-    print_message(DEBUG, 'Estem a escriure html', do_debug)
+    print_message(DEBUG, 'Estem a escriure html', DO_DEBUG)
     print_message(INFO, "Escribint la sortida en html" + ("." * 30))
     try:
         output = open("output.html", "w")
@@ -141,7 +139,7 @@ def escriure_html():
             output.write("""\r\n\t<h1>Totes les s&egrave;ries estan
                 actualitzades</h1>\r\n\t""")
             output.write("\r\n</body>\r\n</html>\r\n")
-    except Exception, e:
+    except Exception as e:
         print_message(ERROR, "No he pogut crear el fitxer de sortida: "
                 + e.message)
         errors = True
@@ -151,7 +149,7 @@ def get_cookies():
     """
     Obté les cookies emmagatzemades al fitxer cookies.data
     """
-    print_message(DEBUG, 'Estem a get cookies', do_debug)
+    print_message(DEBUG, 'Estem a get cookies', DO_DEBUG)
     try:
         f = open('cookies.data', 'r')
         for line in f.readlines():
@@ -163,20 +161,20 @@ def get_cookies():
             # 1: valor de la cookie
             cookies[parts[0].strip()] = parts[1].strip()
             print_message(DEBUG, parts[0].strip() + ' = ' + parts[1].strip(),
-                    do_debug)
+                    DO_DEBUG)
 
         f.close()
-    except Exception, e:
+    except Exception as e:
         print_message(ERROR, "Error llegint fitxer de cookies: " + e.message)
         errors = True
 
 
 def processar_series():
-    print_message(DEBUG, 'Estem a processar series', do_debug)
+    print_message(DEBUG, 'Estem a processar series', DO_DEBUG)
     get_cookies()
     try:
         llegir_series()
-    except Exception, e:
+    except Exception as e:
         print_message(ERROR, "Error llegint fitxer de sèries: " + e.message)
         exit()
 
@@ -190,24 +188,18 @@ def processar_series():
         print_message(INFO, "Comprovant darrera actualització de la sèrie: " +
                 nom_serie)
         try:
-            if web_serie == "vagos":
-                hash_actual = vagos.get_digest(url_serie,
-                        cookies.get(vagos.COOKIE_NAME), do_debug)
-            elif web_serie == 'tusseries':
-                hash_actual = tusseries.get_digest(url_serie,
-                        cookies.get(tusseries.COOKIE_NAME), do_debug)
-            elif web_serie == 'todohdtv':
+            if web_serie == 'todohdtv':
                 hash_actual = todohdtv.get_digest(url_serie,
-                        None, do_debug)
+                        None, DO_DEBUG)
             elif web_serie == 'divxatope':
                 hash_actual = divxatope.get_digest(url_serie,
-                        None, do_debug)
+                        None, DO_DEBUG)
 
-        except Exception, e:
+        except Exception as e:
             print_message(ERROR, "Error tractant [" + nom_serie + "]: " +
                     e.message)
 
-        print_message(DEBUG, "--> " + hash_actual, do_debug)
+        print_message(DEBUG, "--> " + hash_actual, DO_DEBUG)
 
         if eacts:
             # Si existeix el fitxer, compararem cada entrada de la llista de
