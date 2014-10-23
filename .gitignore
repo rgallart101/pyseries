@@ -4,6 +4,9 @@
 # Ignore html files
 *.html
 
+# Ignore old files
+*old
+
 # Ignore bash script files
 *.sh
 
