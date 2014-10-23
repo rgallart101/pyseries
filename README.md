@@ -1,35 +1,52 @@
 PySeries
 ========
-This is an application to keep track of your tv series.
+This is an application to keep track of your tv shows. Once you feed the file series.txt it will tell you when your favourite tve shows have been updated.
 
-What do you need
-----------------
-In order for PySeries to run the only must-have is BeautifulSoup4
-which you can install using
+Version
+-------
+Current version is 0.2.
 
-    pip install beautifulsoup4
+Dependencies
+------------
+This new version has been updated to use Python 3. Specifically it has been tested with version 3.4.1.
 
-or
+Adding to the fact that it has been ported to Python 3 it is necessary to install the libraries cited in the tools/requirements3.txt file.
 
-    easy\_install beautifulsoup4
+In order to do that it is advised to create a virtual environment so everything can be installed in a safe way.
 
-For more information you can visit http://www.crummy.com/software/BeautifulSoup/
+To do that I recommend:
 
-I've developed PySeries with python version 2.7.3. I have not tested it
-on other versions but this, but I think it can work with 2.6.X. Anyway
-if some of you check it and want to tell me your feedback will be welcomed.
+- For Mac OSX: the excellent article by Marina Mele (@marina_mele): [Install Python 3 on Mac OS X and use virtualenv and virtualenvwrapper](http://www.marinamele.com/2014/07/install-python3-on-mac-os-x-and-use-virtualenv-and-virtualenvwrapper.html).
+- For Windows: [Install Python, Pip and Virtualenv on Windows](https://zignar.net/2012/06/17/install-python-on-windows/) updated on June 2014 to include Python 3.4
+- For Linux: There are concise instructions at [Python2 and Python3 co-existing in harmony using Virtualenv](http://www.circuidipity.com/python2-and-python3.html) It is for Debian-based distros, but the main process should be easily extrapolated to any other distro.
+
+Installing the dependencies
+---------------------------
+Assuming you have created the virtual environment, activate it and:
+
+```
+cd <the directory where you downloaded the app>
+pip install -r tools/requirements3.txt
+
+```
+
+About the files
+---------------
+All the input and output files are created in the data folder. The program expects to find them all there.
 
 series.txt (input file)
 -----------------------
 In this file you have to put the series you want to track. By now the
-process is quite manual. In the file each line is a register of this form:
+process is quite manual.
+
+In the file each line is a register like this:
 
     number#site#name#URL
 
 where:
 
     number: is a kind of serie identifier
-    site: is where new chapter of the serie are announced
+    site: is where new chapter of the serie are announced (currently only 'divxatope' and 'todohdtv' are allowed)
     name: the main name of the serie (it's a free field)
     URL: the URL where you can find the serie
 
@@ -38,38 +55,6 @@ use it in the name filed as it can direct to a malfunction of the program.
 As an example:
 
     22#yourseries#Castle - S5#http://www.yourseries.com/show.php?t=234145
-
-cookies.data (input file)
--------------------------
-Almost every website will ask you for registration. The most usual way to
-know if you are registered is using cookies. In this file you will store
-the cookies for every website you look for up to date series.
-As in series.txt the process is quite manual by now. You have to get the
-cookie from the browser (Firefox and Chrome have some good ways to get
-cookies from sites) and put them in the file in the form:
-
-    site#cookie
-
-where:
-
-    site: is the same as in series.txt
-    cookie: is the site's cookie
-
-As in series.txt the '#' character works as a field separator. Here is
-an example:
-
-    yourseries#the\_cookie\_got\_from\_my\_browser
-
-Important cookies for sites
----------------------------
-Those are the cookies needed for the various sites processed:
-
-    tusseries
-        ipb_stronghold
-        member_id
-        pass_hash
-    todohdtv (doesn't need cookies)
-    divxatope (doesn't need cookies)
 
 acts.txt (output file)
 ----------------------
@@ -82,3 +67,22 @@ output.html (output file)
 -------------------------
 When the program ends this file will contain the links in order to get
 the updated series.
+
+Running the app
+---------------
+First activate your virtual environment if you have created any.
+
+```
+cd <the directory where you downloaded the app>/src
+python pyseries
+```
+
+Future plans
+------------
+These are some functionalities I would like to create:
+
+- Create an interface to handle the series.txt file. Be it a console interface or any other kind.
+- Handle authentication for the different websites announcing links to the las tv shows episodes. 
+- Make the program intelligent enough to get the links for the new episodes.
+- Some kind of interface with JDownloader if possible
+- ...
