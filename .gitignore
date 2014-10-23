@@ -11,7 +11,7 @@
 *.sh
 
 # Ignore txt files
-src/*.txt
+src/data/*.txt
 
 # Ignore Mac files
 .DS_Store
