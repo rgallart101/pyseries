@@ -30,6 +30,10 @@ pip install -r tools/requirements3.txt
 
 ```
 
+About the files
+---------------
+All the input and output files are created in the data folder. The program expects to find them all there.
+
 series.txt (input file)
 -----------------------
 In this file you have to put the series you want to track. By now the
