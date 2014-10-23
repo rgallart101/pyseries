@@ -101,7 +101,7 @@ class PySeries():
                 continue
             serie.current_digest = current_digest
 
-    def _searh_update(self, tv_show_id):
+    def _search_update(self, tv_show_id):
         for update in self.updates:
             if update.id == tv_show_id:
                 return update.digest
@@ -109,7 +109,7 @@ class PySeries():
 
     def _check_for_updates(self):
         for serie in self.series:
-            update = self._searh_update(serie.id)
+            update = self._search_update(serie.id)
             if not update or update != serie.current_digest:
                 serie.updated = True
 
@@ -118,13 +118,53 @@ class PySeries():
         self._check_for_updates()
 
     def _write_updates(self):
-        pass
+        try:
+            with open(os.path.join(conf.BASE_DIR, 'data', 'acts.txt'), 'w+') as f:
+                for serie in self.series:
+                    f.write("{}#{}\r\n".format(serie.id, serie.current_digest))
+        except Exception as e:
+            msg = "Could not create update file: {}".format(e)
+            print_message(conf.ERROR, msg)
 
     def _write_html_output(self):
+        """
+        Escriu en el fitxer output.html els enllaços a les sèries que han
+        estat actualitzades.
+        """
+        series_actualitzades = []
         for serie in self.series:
             if serie.updated:
-                msg = "Serie {} updated with digest {}".format(serie.name, serie.current_digest)
-                print_message(conf.INFO, msg)
+                update = '<li><a href="{}" target="_blank">{}</a></li>'.format(serie.url, serie.name)
+                series_actualitzades.append(update)
+
+        try:
+            with open(os.path.join(conf.BASE_DIR, 'data', 'output.html'), "w+") as f:
+                f.write("<!DOCTYPE html>\r\n")
+                f.write("""
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Llista de s&egrave;ries</title>
+</head>
+                """)
+                f.write("<body>\r\n")
+                if series_actualitzades:
+                    f.write("""
+    <h1>Llista de s&egrave;ries per actualitzar</h1>
+    <ul>
+                        """)
+                    for serie in series_actualitzades:
+                        f.write("\r\n\t\t" + serie)
+
+                    f.write("\r\n\t</ul>")
+                else:
+                    f.write("""\r\n\t<h1>Totes les s&egrave;ries estan
+                        actualitzades</h1>\r\n\t""")
+                    f.write("\r\n</body>\r\n</html>\r\n")
+                f.write("\r\n</body>\r\n</html>\r\n")
+        except Exception as e:
+            msg = "Could not create output file: {}".format(e)
+            print_message(conf.ERROR, msg)
 
     def _write_output(self):
         self._write_updates()
@@ -143,3 +183,5 @@ if __name__ == '__main__':
         pyseries.parse_series()
     except Exception as exception:
         print_message(conf.ERROR, exception)
+
+    print_message(conf.INFO, "Program terminated.")
