@@ -1,12 +1,12 @@
 # -*- encoding: utf8 -*-
-__author__ = 'ramonmariagallart'
-
 import os
 
 from settings import conf
 from utils import print_message
 
 from plugins import divxatope, todohdtv
+
+__author__ = 'ramonmariagallart'
 
 
 class PluginFactory():
@@ -112,6 +112,7 @@ class PySeries():
             update = self._search_update(serie.id)
             if not update or update != serie.current_digest:
                 serie.updated = True
+                print_message(conf.INFO, "[{}] UPDATED!".format(serie.name))
 
     def _process_tv_shows(self):
         self._get_digest_for_tv_shows()
