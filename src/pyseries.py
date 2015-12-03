@@ -4,7 +4,7 @@ import os
 from settings import conf
 from utils import print_message
 
-from plugins import divxatope, todohdtv
+from plugins import divxatope, todohdtv, mundoteam
 
 __author__ = 'ramonmariagallart'
 
@@ -16,6 +16,8 @@ class PluginFactory():
             return divxatope.get_digest
         elif plugin == "todohdtv":
             return todohdtv.get_digest
+        elif plugin == "mundoteam":
+            return mundoteam.get_digest
 
 
 class Serie():
